@@ -8,9 +8,6 @@ const MINIMUM_VOLUME = 0.01
 var music_player: AudioStreamPlayer
 var backup_player: AudioStreamPlayer
 
-@onready var _active = load("res://audio/music/ActiveMusic.wav")
-@onready var _waiting = load("res://audio/music/WaitingMusic.wav")
-
 func _ready():
 	music_player = AudioStreamPlayer.new()
 	backup_player = AudioStreamPlayer.new()
@@ -20,14 +17,6 @@ func _ready():
 	
 	for child in get_children():
 		(child as AudioStreamPlayer).bus = "Music"
-	
-	Eventbus.shop_open_state_changed.connect(
-		func(state):
-			if state:
-				play(_active)
-			else:
-				play(_waiting)
-	)
 
 func play(music: AudioStream):
 	var fader = get_tree().create_tween()
