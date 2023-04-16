@@ -4,10 +4,12 @@ var active := false:
   set(val):
     active = val
     _canvas.visible = active
-    get_tree().paused = active
+    get_tree().paused = pause_on_open
     if val:
       _editor.grab_focus()
-      call_deferred("clr")
+      clr.call_deferred()
+
+var pause_on_open = false
 
 var debug_keys := [
   KEY_F1,
@@ -77,5 +79,7 @@ func _input(event):
       var cmd = _editor.text.split(" ")
       if cmd[0] in _commands.keys():
         if len(cmd) > 0:
-          _commands[cmd[0]].call(Array(cmd).slice(1))
+          var cooooommand = _commands[cmd[0]] as Callable
+          if cooooommand.is_valid() and not cooooommand.is_null():
+            cooooommand.call(Array(cmd).slice(1))
     _editor.text = ""
