@@ -26,6 +26,7 @@ var debug_keys := [
   KEY_F12
 ]
 
+var _trackers := {}
 var _commands := {}
 var _cmds := {}
 var _font := SystemFont.new()
@@ -38,6 +39,12 @@ func register_command(str: String, callable:Callable):
 func register_cmd(title: String, callable: Callable):
   _cmds[debug_keys.pop_front()] = { "text": title, "callback": callable }
 
+func get_tracker(title: String):
+  if not title in _trackers:
+    _trackers[title] = Attribute.new(0.0)
+    Performance.add_custom_monitor(title, func(): return _trackers[title].current)
+  return _trackers[title]
+
 func _ready():
   top_level = true
   z_index = 999
@@ -47,6 +54,12 @@ func _ready():
   _canvas.layer = 999
   _canvas.add_child(_editor)
   active = false
+
+  register_command("print", func(item):
+    match item:
+      [var tracker, ..]:
+        print(_trackers.get(tracker, Attribute.new(0.0)).current)
+  )
 
 func _process(delta):
   queue_redraw()
@@ -59,6 +72,12 @@ func _process(delta):
 func _draw():
   if active:
     var y := _font.get_height()
+    for tracker in _trackers:
+      var data = {"key": tracker, "text": _trackers[tracker].current}
+      draw_string(_font, Vector2.DOWN * y, "{key}: {text}".format(data))
+      y += _font.get_height()
+    draw_string(_font, Vector2.DOWN * y, "---")
+    y += _font.get_height()
     for cmd in _cmds:
       var data = {"key": OS.get_keycode_string(cmd), "text": _cmds[cmd]["text"]}
       draw_string(_font, Vector2.DOWN * y, "{key}: {text}".format(data))
