@@ -10,7 +10,7 @@ var active := false:
       clr.call_deferred()
 
 var pause_on_open = false
-
+var debug_font := SystemFont.new()
 var debug_keys := [
   KEY_F1,
   KEY_F2,

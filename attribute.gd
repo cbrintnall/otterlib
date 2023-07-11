@@ -1,12 +1,23 @@
 extends RefCounted
 class_name Attribute
 
-var max: float
-var min: float
+signal changed(float)
+
+var max: float:
+  set(val):
+    max = val
+    current = clampf(current, min, max)
+
+var min: float:
+  set(val):
+    min = val
+    current = clampf(current, min, max)
+
 var base: float
 var current: float:
   set(val):
     current = clampf(val, min, max)
+    changed.emit(current)
 
 func _init(base_value: float, min_value := -INF, max_value := INF):
   base = base_value

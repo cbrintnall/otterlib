@@ -13,18 +13,24 @@ signal healed(amount, current)
 signal hurt(amount, current)
 signal died()
 
-@export var max_health: int
+@export var max_health: int:
+  set(val):
+    max_health = val
+    current_health.max = val
 
-@onready var current_health := Attribute.new(max_health, 0, INF)
+var current_health := Attribute.new(0, 0, INF)
 var dead := false
+
+func _ready():
+  current_health.set_value(max_health)
 
 func modify(request: HealthChangeRequest):
   var previous = current_health.current
   current_health.incr(-request.amount)
 
-  if previous < current_health:
+  if previous < current_health.current:
     healed.emit(request.amount, current_health.current)
-  elif previous > current_health:
+  elif previous > current_health.current:
     hurt.emit(request.amount, current_health.current)
 
   if not dead and current_health.current <= 0:
