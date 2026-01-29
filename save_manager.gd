@@ -29,7 +29,8 @@ get_save_data() should return a dictionary of the format:
 func save(path: String = ""):
   if not path.is_empty():
     save_path = path
-  var saveables = Utils.get_nodes_with_predicate(get_tree().root, func(node: Node): return node.has_method("get_save_data"))
+
+  var saveables = NodeUtils.get_nodes_with_predicate(get_tree().root, func(node: Node): return node.has_method("get_save_data"))
   
   print("found '%d' nodes to save" % len(saveables))
   

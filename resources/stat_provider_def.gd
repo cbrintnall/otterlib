@@ -3,8 +3,17 @@ class_name StatProviderDef
 
 enum ContributionType {
   ADDITIVE,
-  MULTIPLICATIVE
+  MULTIPLICATIVE,
+  SET
 }
+
+static func from(amount: float, contribution := ContributionType.ADDITIVE) -> StatProviderDef:
+  var def := StatProviderDef.new()
+  
+  def.amount = amount
+  def.contribution_type = contribution
+  
+  return def
 
 ## how much is this provider worth?
 @export var amount := 1.0
@@ -14,8 +23,13 @@ enum ContributionType {
 @export_multiline var description := "Increases {stat} by {amount}."
 @export_enum("raw", "integer", "percent", "multiplier") var format_style := "integer"
 
-func get_value_as_format() -> String:
-  match format_style:
+func get_value_as_format(override := "") -> String:
+  var used_format = format_style
+  
+  if override:
+    used_format = override
+  
+  match override:
     "integer":
       return str(roundi(amount))
     "percent":
