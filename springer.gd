@@ -14,10 +14,13 @@ func register(field:String, obj, target, velocity, stiffness, damp, speed := 1.0
     "velocity": velocity,
     "speed": speed
   }
+  
+func remove(obj, field: String):
+  data.get(obj, {}).erase(field)
 
 func set_target_getter(obj, field: String, getter: Callable):
   data[obj][field]["getter"] = getter
-  
+
 func _process(delta: float) -> void:
   while removals:
     data.erase(removals.pop_front())

@@ -11,13 +11,18 @@ class_name BetterMultiMeshInstance2D
   set(val):
     jitter = val
     _generate()
+    
+@export_range(0.0, TAU, 0.01) var rotation_jitter := 0.0:
+  set(val):
+    rotation_jitter = val
+    _generate()
 
 @export_tool_button("Generate") var gen = Callable(_generate)
 
 func _ready() -> void:
   if Engine.is_editor_hint():
     return
-    
+
   multimesh = multimesh.duplicate()
 
 func _generate():
@@ -27,11 +32,15 @@ func _generate():
   if not multimesh.mesh:
     multimesh.mesh = QuadMesh.new()
   multimesh.mesh.size = texture.get_size()
+
+  var rng := RandomNumberGenerator.new()
+  rng.seed = hash(String(get_path()))
   var t = Transform2D()
   for i in multimesh.instance_count:
-    var current = t.translated(
-      Vector2(randf_range(-jitter.x, jitter.x), randf_range(-jitter.y, jitter.y))
-    )
+    var ja = rng.randf_range(-jitter.x, jitter.x)
+    var jb = rng.randf_range(-jitter.x, jitter.x)
+    var jr = rng.randf_range(-rotation_jitter, rotation_jitter)
+    var current = t.translated(Vector2(ja, jb)).rotated_local(PI).rotated_local(jr)
     multimesh.set_instance_transform_2d(i, current)
     t = t.translated(offset)
 

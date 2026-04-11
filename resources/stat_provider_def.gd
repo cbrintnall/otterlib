@@ -29,11 +29,11 @@ func get_value_as_format(override := "") -> String:
   if override:
     used_format = override
   
-  match override:
+  match used_format:
     "integer":
-      return str(roundi(amount))
+      return "%+d" % roundi(amount)
     "percent":
-      return "%.2f%%" % (amount*100.0)
+      return "%+.0f%%" % (amount*100.0)
     "multiplier":
       return "%.1fx" % amount
   return str(amount)
