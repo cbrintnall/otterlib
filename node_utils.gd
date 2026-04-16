@@ -54,7 +54,8 @@ static func free_on_finished_2d(particles: GPUParticles2D, start := true):
   return particles
 
 static func fire_particles_at(owner, particles):
-  NodeUtils.force_child(owner.get_tree().current_scene, particles)
+  NodeUtils.force_child(owner.get_parent(), particles)
+  particles.global_position = owner.global_position
   NodeUtils.free_on_finished(particles)
   return particles
 

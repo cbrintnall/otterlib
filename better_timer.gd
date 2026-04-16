@@ -6,6 +6,9 @@ var every: float
 var progress: float:
   get:
     return clampf(_time / every, 0.0, 1.0)
+var remaining: float:
+  get:
+    return _time
 
 var _time: float
 var _ltime: float

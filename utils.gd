@@ -58,3 +58,9 @@ static func debounce(timer: BetterTimer, cb: Callable):
   if timer.check(Engine.get_main_loop().root.get_process_delta_time(), false):
     cb.call()
     timer.reset()
+    
+static func wait_until(predicate: Callable):
+  assert(Engine.get_main_loop() is SceneTree)
+  
+  while not predicate.call():
+    await Engine.get_main_loop().process_frame
