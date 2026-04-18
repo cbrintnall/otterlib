@@ -1,6 +1,8 @@
 extends RefCounted
 class_name BetterTimer
 
+signal finished_progress
+
 var multiplier := 1.0
 var every: float
 var progress: float:
@@ -32,6 +34,7 @@ func check(delta: float, wrap_time := true) -> bool:
   if _time >= every:
     if wrap_time:
       _time -= every
+    finished_progress.emit()
     return true
   return false
 
