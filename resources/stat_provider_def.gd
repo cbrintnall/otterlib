@@ -7,11 +7,12 @@ enum ContributionType {
   SET
 }
 
-static func from(amount: float, contribution := ContributionType.ADDITIVE) -> StatProviderDef:
+static func from(amount: float, contribution := ContributionType.ADDITIVE, format_style := "integer") -> StatProviderDef:
   var def := StatProviderDef.new()
   
   def.amount = amount
   def.contribution_type = contribution
+  def.format_style = format_style
   
   return def
   
