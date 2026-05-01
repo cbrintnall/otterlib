@@ -14,12 +14,21 @@ var remaining: float:
 
 var _time: float
 var _ltime: float
+var _reset_bind: Callable
 
 func _init(_every: float):
   every = _every
   
+func bind_reset(cb: Callable):
+  if _reset_bind == null or not _reset_bind.is_valid():
+    _reset_bind = cb
+  
 func reset():
   _time = 0.0
+  
+func reset_to(time: float):
+  every = time
+  reset()
   
 func finished() -> bool:
   return progress >= 1.0
@@ -35,6 +44,8 @@ func check(delta: float, wrap_time := true) -> bool:
     if wrap_time:
       _time -= every
     finished_progress.emit()
+    if _reset_bind.is_valid():
+      reset_to(_reset_bind.call())
     return true
   return false
 

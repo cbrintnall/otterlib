@@ -32,3 +32,6 @@ static func size_from(...controls: Array) -> Vector2:
     size = size.expand(ctrl.position+ctrl.size)
     
   return size.size
+
+static func get_rect(ctrl: Control) -> Rect2:
+  return Rect2(ctrl.position, ctrl.size)

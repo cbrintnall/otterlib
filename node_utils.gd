@@ -58,12 +58,18 @@ static func fire_particles_at(owner, particles):
   particles.global_position = owner.global_position
   NodeUtils.free_on_finished(particles)
   return particles
+  
+static func collect_children_in_group(parent: Node, group: StringName) -> Array:
+  return get_nodes_with_predicate(parent, func(node: Node): return node.is_in_group(group))
 
 static func collect_children(parent: Node, ...names) -> Dictionary:
   var children := {}
   
   for arg: String in names:
-    var key = arg.to_lower()
+    var key = arg
     children[key] = parent.find_child(arg)
 
   return children
+
+static func get_normalized_time(timer: Timer) -> float:
+  return timer.time_left/timer.wait_time
