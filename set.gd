@@ -6,6 +6,9 @@ var _data := {}
 func _init(data := []):
   append_array(data)
 
+func count() -> int:
+  return len(_data)
+
 func add(obj):
   _data[obj]=true
   

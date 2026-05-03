@@ -12,3 +12,6 @@ class_name StatDef
 @export var max_value := INF
 ## The starting value, also used for value calculations (see notion)
 @export var base_value := 1.0
+
+func get_description(current: float):
+  return description.format({ "current": StatProviderDef.get_value_as_format(current, format_style) })

@@ -1,4 +1,3 @@
-@tool
 extends QuadMesh
 class_name ParticleQuadMesh
 

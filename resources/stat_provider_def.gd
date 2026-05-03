@@ -7,13 +7,28 @@ enum ContributionType {
   SET
 }
 
-static func from(amount: float, contribution := ContributionType.ADDITIVE) -> StatProviderDef:
+static func from(amount: float, contribution := ContributionType.ADDITIVE, format_style := "integer") -> StatProviderDef:
   var def := StatProviderDef.new()
   
   def.amount = amount
   def.contribution_type = contribution
+  def.format_style = format_style
   
   return def
+  
+static func get_value_as_format(amount: float, format := "integer") -> String:
+  var used_format = format
+
+  match used_format:
+    "integer":
+      return "%+d" % roundi(amount)
+    "percent":
+      return "%+.0f%%" % (amount*100.0)
+    "multiplier":
+      return "%.1fx" % amount
+    "rate_seconds":
+      return "%.1f/s" % amount
+  return str(amount)
 
 ## how much is this provider worth?
 @export var amount := 1.0
@@ -21,19 +36,9 @@ static func from(amount: float, contribution := ContributionType.ADDITIVE) -> St
 @export var contribution_type := ContributionType.ADDITIVE
 @export_category("metadata")
 @export_multiline var description := "Increases {stat} by {amount}."
-@export_enum("raw", "integer", "percent", "multiplier") var format_style := "integer"
+@export_enum("raw", "integer", "percent", "multiplier", "rate_seconds") var format_style := "integer"
 
-func get_value_as_format(override := "") -> String:
-  var used_format = format_style
-  
+func get_current_as_format(override := "") -> String:
   if override:
-    used_format = override
-  
-  match override:
-    "integer":
-      return str(roundi(amount))
-    "percent":
-      return "%.2f%%" % (amount*100.0)
-    "multiplier":
-      return "%.1fx" % amount
-  return str(amount)
+    return StatProviderDef.get_value_as_format(amount, override)
+  return StatProviderDef.get_value_as_format(amount, format_style)
