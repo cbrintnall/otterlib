@@ -1,6 +1,9 @@
 extends Node
 class_name NodeUtils
 
+static func get_point_velocity(rb: RigidBody3D, point: Vector3) -> Vector3:
+  return rb.linear_velocity + rb.angular_velocity.cross(point - rb.global_position)
+
 static func iterate_nodes(root: Node, cb: Callable):
   cb.call(root)
   for child in root.get_children():
