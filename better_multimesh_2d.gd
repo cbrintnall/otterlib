@@ -23,7 +23,8 @@ func _ready() -> void:
   if Engine.is_editor_hint():
     return
 
-  multimesh = multimesh.duplicate()
+  if multimesh:
+    multimesh = multimesh.duplicate()
 
 func _generate():
   if not multimesh or not texture:

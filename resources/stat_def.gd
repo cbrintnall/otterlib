@@ -13,5 +13,22 @@ class_name StatDef
 ## The starting value, also used for value calculations (see notion)
 @export var base_value := 1.0
 
+static func from(
+  _name: String,
+  _description: String,
+  _base := 1.0,
+  _fmt := "integer",
+  _max := INF,
+) -> StatDef:
+  var stat := StatDef.new()
+  
+  stat.name = _name
+  stat.description = _description
+  stat.base_value = _base
+  stat.format_style = _fmt
+  stat.max_value = _max
+  
+  return stat
+
 func get_description(current: float):
   return description.format({ "current": StatProviderDef.get_value_as_format(current, format_style) })

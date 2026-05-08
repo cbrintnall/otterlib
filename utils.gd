@@ -1,6 +1,12 @@
 extends Node
 class_name Utils
 
+static func point_length(points: PackedVector2Array) -> float:
+  var sum := 0.0
+  for i in range(1, points.size()):
+    sum += points[i-1].distance_to(points[i])
+  return sum
+
 static func flatten_array(array: Array) -> Array:
   return array.reduce(func(accum, next): accum.append_array(next); return accum, [])
 
