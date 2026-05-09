@@ -70,3 +70,10 @@ static func wait_until(predicate: Callable):
   
   while not predicate.call():
     await Engine.get_main_loop().process_frame
+
+static func get_points(rect: Rect2i) -> Array:
+  var points := []
+  for x in range(rect.position.x, rect.end.x):
+    for y in range(rect.position.y, rect.end.y):
+      points.push_back(Vector2i(x,y))
+  return points
