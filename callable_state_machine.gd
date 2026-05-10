@@ -3,6 +3,9 @@ class_name CallableStateMachine
 
 signal state_changed(next: String)
 
+static func noop(machine: CallableStateMachine, delta: float):
+  pass
+
 var current: String:
   set(val):
     if not (_physics_states.has(val) or _update_states.has(val)):
