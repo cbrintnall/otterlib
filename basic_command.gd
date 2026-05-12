@@ -2,14 +2,13 @@ extends Command
 class_name BasicCommand
 
 static func from(exec: Callable, u: Callable) -> BasicCommand:
-  return BasicCommand.new(exec, u)
+  var cmd := BasicCommand.new()
+  cmd._exec = exec
+  cmd._undo = u
+  return cmd
 
 var _exec: Callable
 var _undo: Callable
-
-func _init(exec: Callable, u: Callable):
-  _exec = exec
-  _undo = u
 
 func execute():
   if _exec.is_valid():
