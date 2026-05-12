@@ -32,7 +32,9 @@ static func find_child_with_predicate(root: Node, predicate: Callable) -> Node:
     return root
     
   for child in root.get_children():
-    return find_child_with_predicate(child, predicate)
+    var res = find_child_with_predicate(child, predicate)
+    if res:
+      return res
     
   return null
 
