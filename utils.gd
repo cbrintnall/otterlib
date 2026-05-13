@@ -29,6 +29,9 @@ static func area_of_triangle(a,b,c):
 static func random_unit_circle() -> Vector2:
   return Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
 
+static func random_unit_sphere() -> Vector3:
+  return Vector3(randf_range(-1.0, 1.0),randf_range(-1.0, 1.0),randf_range(-1.0, 1.0))
+
 static func get_key_pressed(event: InputEvent) -> Key:
   if event is InputEventKey and event.is_pressed():
     return event.keycode
