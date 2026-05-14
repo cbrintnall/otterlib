@@ -6,6 +6,14 @@ var _data := {}
 func _init(data := []):
   append_array(data)
 
+func pop():
+  if _data:
+    return _data.keys().front()
+  return null
+
+func erase(obj):
+  remove(obj)
+
 func count() -> int:
   return len(_data)
 
