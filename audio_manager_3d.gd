@@ -4,13 +4,18 @@ var _debounced := {}
 var _players := []
 var _local_players: Array[AudioStreamPlayer] = []
 
-var _last_time_scale := 1.0
+var _pitch_shift: AudioEffectPitchShift
 
 func _ready():
   const start = 20
   for i in start:
     _players.push_back(AudioStreamPlayer3D.new())
     add_child(_players[-1])
+  _pitch_shift = AudioEffectPitchShift.new()
+  AudioServer.add_bus_effect(AudioServer.get_bus_index("Master"), _pitch_shift)
+    
+func _process(_delta: float) -> void:
+  _pitch_shift.pitch_scale = Engine.time_scale
     
 func play(data: Dictionary):
   if data.get("debounce", 0.0) > 0.0:
