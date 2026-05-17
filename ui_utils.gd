@@ -35,3 +35,6 @@ static func size_from(...controls: Array) -> Vector2:
 
 static func get_rect(ctrl: Control) -> Rect2:
   return Rect2(ctrl.position, ctrl.size)
+
+static func is_click(event: InputEvent, index: int) -> bool:
+  return event is InputEventMouseButton and event.is_pressed() and event.button_index == index

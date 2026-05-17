@@ -78,3 +78,9 @@ static func collect_children(parent: Node, ...names) -> Dictionary:
 
 static func get_normalized_time(timer: Timer) -> float:
   return timer.time_left/timer.wait_time
+
+static func get_global_with_ratio(ctrl:Control) -> Vector2:
+  return ctrl.global_position - ctrl.get_combined_pivot_offset()
+
+static func get_anchored_position(ctrl: Control, anchors: Vector2) -> Vector2:
+  return ctrl.global_position + (ctrl.size*anchors)
